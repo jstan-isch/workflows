@@ -1,0 +1,26 @@
+name: Validate Terraform Modules
+
+on:
+  pull_request:
+    paths:
+      - '**/*.tf'
+      - '**/*.tfvars'
+
+jobs:
+  check-modules:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get changed files
+        id: changed
+        uses: tj-actions/changed-files@v46
+        with:
+          files: |
+            **/*.tf
+            **/*.tfvars
+
+      - name: Validate Terraform module refs
+        uses: ./.github/actions/tag
+        with:
+          changed_files: ${{ toJson(steps.changed.outputs.all_changed_files) }}

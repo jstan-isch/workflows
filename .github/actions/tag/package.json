@@ -1,0 +1,21 @@
+{
+  "name": "tag",
+  "type": "module",
+  "packageManager": "yarn@4.6.0",
+  "devDependencies": {
+    "@types/node": "^22.15.29",
+    "esbuild": "^0.25.5",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@actions/core": "^1.11.1"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "bundle": "yarn run --top-level --binaries-only tsc && yarn run --top-level --binaries-only esbuild src/index.ts --bundle --platform=node --outfile=dist/bundle.js",
+    "dev": "yarn run --top-level --binaries-only tsc && yarn run --top-level --binaries-only tsx src/index.ts"
+  }
+}

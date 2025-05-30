@@ -1,0 +1,11 @@
+name: 'Check Terraform Module Version'
+description: 'Fail if any Terraform module references a commit SHA instead of a version tag.'
+author: 'foo'
+inputs:
+  changed_files:
+    description: 'JSON array of changed file paths'
+    required: true
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'

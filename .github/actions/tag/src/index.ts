@@ -28,8 +28,12 @@ function fileContainsSHAReference(filePath: string): boolean {
 async function run() {
   try{
     const changedFilesInput = core.getInput('changedFiles');
-    console.log(changedFilesInput)
-    // const changedFiles = changedFilesInput.split()
+    const changedFiles = changedFilesInput
+    .split(' ')
+    .map((line) => (line.trim()))
+    .filter((line) => line.endsWith('.tf'))
+
+    console.log(`These are the changed files: ${changedFiles}`)
   } catch (error: any){
     core.setFailed(`Action failed: ${error.message}`)
   }

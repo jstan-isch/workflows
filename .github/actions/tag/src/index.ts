@@ -25,38 +25,48 @@ function fileContainsSHAReference(filePath: string): boolean {
   return refs.some(ref => isSHA(ref));
 }
 
-async function run(): Promise<void> {
-  try {
-    const input = core.getInput('changed_files');
-    const files: string[] = JSON.parse(input);
-    const badFiles: string[] = [];
-
-    for (const file of files) {
-      if (
-        (file.endsWith('.tf') || file.endsWith('.tfvars')) &&
-        fs.existsSync(file)
-      ) {
-        if (fileContainsSHAReference(file)) {
-          badFiles.push(file);
-        }
-      }
-    }
-
-    if (badFiles.length > 0) {
-      const message = [
-        '🚫 Terraform modules referencing SHAs were found in the following files:',
-        ...badFiles.map(f => `- ${f}`),
-        '',
-        'Please use version tags like `?ref=v1.2.3` instead of commit SHAs.',
-      ].join('\n');
-
-      core.setFailed(message);
-    } else {
-      core.info('✅ All Terraform module references use version tags.');
-    }
-  } catch (error: any) {
-    core.setFailed(`Unhandled error: ${error.message}`);
+async function run() {
+  try{
+    const changedFilesInput = core.getInput('changedFiles');
+    console.log(changedFilesInput)
+    // const changedFiles = changedFilesInput.split()
+  } catch (error: any){
+    core.setFailed(`Action failed: ${error.message}`)
   }
 }
+
+// async function run(): Promise<void> {
+//   try {
+//     const input = core.getInput('changed_files');
+//     const files: string[] = JSON.parse(input);
+//     const badFiles: string[] = [];
+
+//     for (const file of files) {
+//       if (
+//         (file.endsWith('.tf') || file.endsWith('.tfvars')) &&
+//         fs.existsSync(file)
+//       ) {
+//         if (fileContainsSHAReference(file)) {
+//           badFiles.push(file);
+//         }
+//       }
+//     }
+
+//     if (badFiles.length > 0) {
+//       const message = [
+//         '🚫 Terraform modules referencing SHAs were found in the following files:',
+//         ...badFiles.map(f => `- ${f}`),
+//         '',
+//         'Please use version tags like `?ref=v1.2.3` instead of commit SHAs.',
+//       ].join('\n');
+
+//       core.setFailed(message);
+//     } else {
+//       core.info('✅ All Terraform module references use version tags.');
+//     }
+//   } catch (error: any) {
+//     core.setFailed(`Unhandled error: ${error.message}`);
+//   }
+// }
 
 run();

@@ -15,7 +15,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "bundle": "yarn run --top-level --binaries-only tsc && yarn run --top-level --binaries-only esbuild src/index.ts --bundle --platform=node --outfile=dist/bundle.js",
-    "dev": "yarn run --top-level --binaries-only tsc && yarn run --top-level --binaries-only tsx src/index.ts"
+    "dev": "yarn run --top-level --binaries-only tsc && yarn run --top-level --binaries-only tsx src/index.ts",
+    "bundle": "yarn run --top-level --binaries-only tsc && yarn run --top-level --binaries-only esbuild src/index.ts --bundle --platform=node --format=esm --outfile=dist/bundle.js"
   }
 }

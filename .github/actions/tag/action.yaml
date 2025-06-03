@@ -8,4 +8,4 @@ inputs:
 
 runs:
   using: 'node20'
-  main: 'dist/bundle.js'
+  main: 'dist/bundle.cjs'

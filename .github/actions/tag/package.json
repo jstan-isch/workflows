@@ -16,6 +16,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "yarn run --top-level --binaries-only tsc && yarn run --top-level --binaries-only tsx src/index.ts",
-    "bundle": "yarn run --top-level --binaries-only tsc && yarn run --top-level --binaries-only esbuild src/index.ts --bundle --platform=node --target=node20 --outfile=dist/bundle.js"
+    "bundle": "yarn run --top-level --binaries-only tsc && yarn run --top-level --binaries-only esbuild src/index.ts --bundle --platform=node --target=node20 --outfile=dist/bundle.cjs"
   }
 }

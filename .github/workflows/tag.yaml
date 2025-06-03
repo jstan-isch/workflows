@@ -23,4 +23,4 @@ jobs:
       - name: Validate Terraform module refs
         uses: ./.github/actions/tag
         with:
-          changedFiles: ${{ toJson(steps.changed.outputs.all_changed_files) }}
+          changed_files: ${{ toJson(steps.changed.outputs.all_changed_files) }}

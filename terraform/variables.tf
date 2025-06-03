@@ -18,6 +18,7 @@ variable "docker_ports" {
       internal = 8300
       external = 8300
       protocol = "tcp"
+      ip       = "ip"
     }
   ]
 }

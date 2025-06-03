@@ -19812,8 +19812,8 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
 var core = __toESM(require_core(), 1);
 async function run() {
   try {
-    const changedFilesInput = core.getInput("changedFiles");
-    const changedFiles = changedFilesInput.split(" ").map((line) => line.trim()).filter((line) => line.endsWith(".tf"));
+    const changedFilesInput = core.getInput("changed_files");
+    const changedFiles = changedFilesInput.split(" ").map((line) => line.trim()).filter((line) => line.length > 0 && line.endsWith(".tf"));
     console.log(`These are the changed files: ${changedFiles}`);
   } catch (error) {
     core.setFailed(`Action failed: ${error.message}`);

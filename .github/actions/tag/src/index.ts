@@ -21,7 +21,6 @@ function isCommented(line: string): boolean {
 
 async function run(): Promise<void> {
   const changedFilesInput = core.getInput('changed_files');
-  console.log(changedFilesInput)
   const githubToken = core.getInput('github_token');
   const octokit = github.getOctokit(githubToken);
   const pr = github.context.payload.pull_request;
@@ -32,6 +31,8 @@ async function run(): Promise<void> {
     .split(/\s+/)
     .map(f => f.trim())
     .filter(f => f.endsWith('.tf') && fs.existsSync(f));
+  
+  console.log(changedFiles)
 
   for (const file of changedFiles) {
     const content = fs.readFileSync(file, 'utf-8');
@@ -46,7 +47,7 @@ async function run(): Promise<void> {
       ) {
         continue;
       }
-
+      console.log(line)
       const ref = extractRefFromGitSource(line);
       if (ref && isCommitSHA(ref)) {
         invalidRefs.push(`${file}: \`${ref}\``);
@@ -64,6 +65,8 @@ async function run(): Promise<void> {
       '',
       'Please update these references to use version tags (e.g. `?ref=v1.0.0`).'
     ].join('\n');
+
+    console.log(body)
 
     if (pr) {
       await octokit.rest.issues.createComment({

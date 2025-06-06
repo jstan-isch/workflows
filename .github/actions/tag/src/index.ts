@@ -21,6 +21,7 @@ function isCommented(line: string): boolean {
 
 async function run(): Promise<void> {
   const changedFilesInput = core.getInput('changed_files');
+  console.log(changedFilesInput)
   const githubToken = core.getInput('github_token');
   const octokit = github.getOctokit(githubToken);
   const pr = github.context.payload.pull_request;

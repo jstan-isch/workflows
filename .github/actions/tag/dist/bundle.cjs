@@ -23890,6 +23890,7 @@ function isCommented(line) {
 }
 async function run() {
   const changedFilesInput = core.getInput("changed_files");
+  core.info(`Input files: ${changedFilesInput}`);
   const githubToken = core.getInput("github_token");
   const octokit = github.getOctokit(githubToken);
   const pr = github.context.payload.pull_request;

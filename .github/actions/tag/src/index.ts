@@ -20,7 +20,7 @@ function isCommented(line: string): boolean {
 }
 
 async function run(): Promise<void> {
-  const changedFilesInput = new Set(core.getInput('changed_files').split(' '));
+  const changedFilesInput = core.getInput('changed_files');
   core.info(`Input files: ${changedFilesInput}`)
   const githubToken = core.getInput('github_token');
   const octokit = github.getOctokit(githubToken);
@@ -28,14 +28,15 @@ async function run(): Promise<void> {
 
   const invalidRefs: string[] = [];
 
-  // const changedFiles = changedFilesInput
-  //   .split(/\s+/)
-  //   .map(f => f.trim())
-  //   .filter(f => f.endsWith('.tf') && fs.existsSync(f));
+  const changedFiles = changedFilesInput
+    .replace(/^"|"$/g, '')
+    .split(/\s+/)
+    .map(f => f.trim())
+    .filter(f => f.endsWith('.tf') && fs.existsSync(f));
   
-  // core.info(`These are the changed files: ${changedFiles}`)
+  core.info(`These are the changed files: ${changedFiles}`)
 
-  for (const file of changedFilesInput) {
+  for (const file of changedFiles) {
     const content = fs.readFileSync(file, 'utf-8');
     const lines = content.split('\n');
 

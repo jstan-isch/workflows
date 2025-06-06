@@ -36,7 +36,7 @@ async function run(): Promise<void> {
   // core.info(`These are the changed files: ${changedFiles}`)
 
   // for (const file of changedFiles) {
-    for (const file of changedFilesInput) {
+    for (const file of changedFilesInput.split(' ')) {
     const content = fs.readFileSync(file, 'utf-8');
     const lines = content.split('\n');
 

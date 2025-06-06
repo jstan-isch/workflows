@@ -28,3 +28,9 @@ resource "google_compute_instance" "vm_instance" {
   }
 }
 
+output "instance_ip_addr" {
+  value       = service_account.vc
+  description = "The private IP address of the main server instance."
+  source = "git@github.com:one-code_modules.git//modules/linkerd?ref=71b2c3d4e5f67890abcdef1234567890abcdef12"
+}
+

@@ -28,7 +28,7 @@ async function run(): Promise<void> {
 
   const invalidRefs: string[] = [];
 
-  const changedFiles = changedFilesInput.split(' ')
+  const changedFiles = changedFilesInput.split(' ').map(f => f.trim())
   //   .split(/\s+/)
   //   .map(f => f.trim())
   //   .filter(f => f.endsWith('.tf') && fs.existsSync(f));

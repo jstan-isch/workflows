@@ -31,7 +31,8 @@ async function run(): Promise<void> {
   const changedFiles = changedFilesInput
     .split(/\s+/)
     .map(f => f.trim())
-    .filter(f => f.endsWith('.tf') && fs.existsSync(f));
+    .filter(f => f)
+    // .filter(f => f.endsWith('.tf') && fs.existsSync(f));
   
   core.info(`These are the changed files: ${changedFiles}`)
 

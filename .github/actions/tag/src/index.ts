@@ -32,7 +32,7 @@ async function run(): Promise<void> {
     .map(f => f.trim())
     .filter(f => f.endsWith('.tf') && fs.existsSync(f));
   
-  console.log(changedFiles)
+  core.info(`These are the changed files: ${changedFiles}`)
 
   for (const file of changedFiles) {
     const content = fs.readFileSync(file, 'utf-8');
@@ -47,7 +47,7 @@ async function run(): Promise<void> {
       ) {
         continue;
       }
-      console.log(line)
+      core.info(`changed line: ${line}`)
       const ref = extractRefFromGitSource(line);
       if (ref && isCommitSHA(ref)) {
         invalidRefs.push(`${file}: \`${ref}\``);

@@ -23895,7 +23895,7 @@ async function run() {
   const pr = github.context.payload.pull_request;
   const invalidRefs = [];
   const changedFiles = changedFilesInput.split(/\s+/).map((f) => f.trim()).filter((f) => f.endsWith(".tf") && fs.existsSync(f));
-  console.log(changedFiles);
+  core.info(`These are the changed files: ${changedFiles}`);
   for (const file of changedFiles) {
     const content = fs.readFileSync(file, "utf-8");
     const lines = content.split("\n");
@@ -23903,7 +23903,7 @@ async function run() {
       if (isCommented(line) || !line.includes("source") || !line.includes("git@github.com:one-code") || !line.includes("?ref=")) {
         continue;
       }
-      console.log(line);
+      core.info(`changed line: ${line}`);
       const ref = extractRefFromGitSource(line);
       if (ref && isCommitSHA(ref)) {
         invalidRefs.push(`${file}: \`${ref}\``);

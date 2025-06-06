@@ -23895,9 +23895,7 @@ async function run() {
   const octokit = github.getOctokit(githubToken);
   const pr = github.context.payload.pull_request;
   const invalidRefs = [];
-  const changedFiles = changedFilesInput.split(/\s+/).map((f) => f.trim()).filter((f) => f);
-  core.info(`These are the changed files: ${changedFiles}`);
-  for (const file of changedFiles) {
+  for (const file of changedFilesInput) {
     const content = fs.readFileSync(file, "utf-8");
     const lines = content.split("\n");
     for (const line of lines) {

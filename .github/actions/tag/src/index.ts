@@ -28,15 +28,15 @@ async function run(): Promise<void> {
 
   const invalidRefs: string[] = [];
 
-  const changedFiles = changedFilesInput
-    .split(/\s+/)
-    .map(f => f.trim())
-    .filter(f => f)
-    // .filter(f => f.endsWith('.tf') && fs.existsSync(f));
+  // const changedFiles = changedFilesInput
+  //   .split(/\s+/)
+  //   .map(f => f.trim())
+  //   .filter(f => f.endsWith('.tf') && fs.existsSync(f));
   
-  core.info(`These are the changed files: ${changedFiles}`)
+  // core.info(`These are the changed files: ${changedFiles}`)
 
-  for (const file of changedFiles) {
+  // for (const file of changedFiles) {
+    for (const file of changedFilesInput) {
     const content = fs.readFileSync(file, 'utf-8');
     const lines = content.split('\n');
 

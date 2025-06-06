@@ -23889,14 +23889,13 @@ function isCommented(line) {
   return trimmed.startsWith("#") || trimmed.startsWith("//");
 }
 async function run() {
-  const changedFilesInput = core.getInput("changed_files");
+  const changedFilesInput = new Set(core.getInput("changed_files").split(" "));
   core.info(`Input files: ${changedFilesInput}`);
   const githubToken = core.getInput("github_token");
   const octokit = github.getOctokit(githubToken);
   const pr = github.context.payload.pull_request;
   const invalidRefs = [];
-  const changedFiles = changedFilesInput.split(" ").map((f) => f.trim());
-  for (const file of changedFiles) {
+  for (const file of changedFilesInput) {
     const content = fs.readFileSync(file, "utf-8");
     const lines = content.split("\n");
     for (const line of lines) {

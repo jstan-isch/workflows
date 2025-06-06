@@ -5,6 +5,9 @@ inputs:
   changed_files:
     description: 'JSON array of changed file paths'
     required: true
+  github_token:
+    description: "GitHub token for PR comments"
+    required: true
 
 runs:
   using: 'node20'

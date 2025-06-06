@@ -24,3 +24,4 @@ jobs:
         uses: ./.github/actions/tag
         with:
           changed_files: ${{ toJson(steps.changed.outputs.all_changed_files) }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,29 @@
+name: Validate Terraform Modules
+
+on:
+  push:
+    paths:
+      - '**/*.tf'
+      - '**/*.tfvars'
+
+jobs:
+  check-modules:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get changed files
+        id: changed
+        uses: tj-actions/changed-files@v46
+        with:
+          files: |
+            **/*.tf
+            **/*.tfvars
+
+      - name: Validate Terraform module refs
+        uses: ./.github/actions/tag
+        with:
+          changed_files: ${{ steps.changed.outputs.all_changed_files }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}

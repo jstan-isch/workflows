@@ -28,11 +28,7 @@ async function run(): Promise<void> {
 
   const invalidRefs: string[] = [];
 
-  const changedFiles = changedFilesInput
-    .replace(/^"|"$/g, '')
-    .split(/\s+/)
-    .map(f => f.trim())
-    .filter(f => f.endsWith('.tf') && fs.existsSync(f));
+  const changedFiles = changedFilesInput.split(' ')
   
   core.info(`These are the changed files: ${changedFiles}`)
 
@@ -57,6 +53,7 @@ async function run(): Promise<void> {
     }
   }
 
+  
   if (invalidRefs.length > 0) {
     const body = [
       '🚨 **Invalid Module Refs Detected**',
@@ -70,17 +67,36 @@ async function run(): Promise<void> {
 
     console.log(body)
 
-    if (pr) {
+    const { data: prs } = await octokit.rest.repos.listPullRequestsAssociatedWithCommit({
+      ...github.context.repo,
+      commit_sha: github.context.sha,
+    });
+
+    if (prs.length > 0){
+      const prNumber = prs[0].number
       await octokit.rest.issues.createComment({
         ...github.context.repo,
-        issue_number: pr.number,
+        issue_number: prNumber,
         body
-      });
-      core.setFailed('Found invalid module refs.');
+      })
+      core.setFailed('Found invalid module refs')
     } else {
       core.warning('No PR context. Skipping comment.');
       core.setFailed('Found invalid module refs.');
     }
+
+
+    // if (pr) {
+    //   await octokit.rest.issues.createComment({
+    //     ...github.context.repo,
+    //     issue_number: pr.number,
+    //     body
+    //   });
+    //   core.setFailed('Found invalid module refs.');
+    // } else {
+    //   core.warning('No PR context. Skipping comment.');
+    //   core.setFailed('Found invalid module refs.');
+    // }
   } else {
     core.info('✅ All module refs are valid.');
   }

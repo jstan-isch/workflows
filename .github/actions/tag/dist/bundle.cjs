@@ -23895,7 +23895,7 @@ async function run() {
   const octokit = github.getOctokit(githubToken);
   const pr = github.context.payload.pull_request;
   const invalidRefs = [];
-  const changedFiles = changedFilesInput.replace(/^"|"$/g, "").split(/\s+/).map((f) => f.trim()).filter((f) => f.endsWith(".tf") && fs.existsSync(f));
+  const changedFiles = changedFilesInput.split(" ");
   core.info(`These are the changed files: ${changedFiles}`);
   for (const file of changedFiles) {
     const content = fs.readFileSync(file, "utf-8");
@@ -23922,13 +23922,18 @@ async function run() {
       "Please update these references to use version tags (e.g. `?ref=v1.0.0`)."
     ].join("\n");
     console.log(body);
-    if (pr) {
+    const { data: prs } = await octokit.rest.repos.listPullRequestsAssociatedWithCommit({
+      ...github.context.repo,
+      commit_sha: github.context.sha
+    });
+    if (prs.length > 0) {
+      const prNumber = prs[0].number;
       await octokit.rest.issues.createComment({
         ...github.context.repo,
-        issue_number: pr.number,
+        issue_number: prNumber,
         body
       });
-      core.setFailed("Found invalid module refs.");
+      core.setFailed("Found invalid module refs");
     } else {
       core.warning("No PR context. Skipping comment.");
       core.setFailed("Found invalid module refs.");

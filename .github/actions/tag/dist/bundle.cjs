@@ -23922,18 +23922,13 @@ async function run() {
       "Please update these references to use version tags (e.g. `?ref=v1.0.0`)."
     ].join("\n");
     console.log(body);
-    const { data: prs } = await octokit.rest.repos.listPullRequestsAssociatedWithCommit({
-      ...github.context.repo,
-      commit_sha: github.context.sha
-    });
-    if (prs.length > 0) {
-      const prNumber = prs[0].number;
+    if (pr) {
       await octokit.rest.issues.createComment({
         ...github.context.repo,
-        issue_number: prNumber,
+        issue_number: pr.number,
         body
       });
-      core.setFailed("Found invalid module refs");
+      core.setFailed("Found invalid module refs.");
     } else {
       core.warning("No PR context. Skipping comment.");
       core.setFailed("Found invalid module refs.");
